@@ -18,6 +18,7 @@
         height: 100%;
         overflow: hidden; /* Prevent scrolling */
         background-color: #6cd7e4; /* Fallback blue background */
+        z-index: 0;
       }
 
       /* Custom Font */
@@ -46,10 +47,10 @@
         width: 100vw;
         height: 100vh;
         pointer-events: none;
-        z-index: 2;
         background-image: url("src/clouds.png");
         background-repeat: no-repeat;
         background-position: center top;
+        z-index: 2;
         background-size: cover;
         animation: cloudOpacity 4s ease-in-out infinite alternate; /* Add animation */
       }
@@ -149,6 +150,7 @@
         font-family: "Cloudy";
         font-size: 1.5rem;
         color: black;
+        z-index: 2;
         text-shadow: -1px -1px 0 #faf5f5, 1px -1px 0 #faf5f5, -1px 1px 0 #faf5f5,
           1px 1px 0 #faf5f5;
         animation: sloganAnimation 2s ease-in-out infinite alternate;
@@ -170,17 +172,17 @@
         display: flex;
         gap: 10px;
         font-size: 2rem;
-        animation: emojiAnimation 1s ease-in-out infinite alternate;
+        animation: emojiAnimation 2s ease-in-out infinite alternate;
       }
 
       @keyframes emojiAnimation {
         0% {
           opacity: 0;
-          transform: translateY(10px);
+          transform: translateY(5px);
         }
         100% {
           opacity: 1;
-          transform: translateY(-10px);
+          transform: translateY(-5px);
         }
       }
     </style>
@@ -197,7 +199,9 @@
     <div class="container">
       <img src="src/logo.png" alt="HighEnd Logo" class="logo-image" />
       <div class="slogan">
+        <br />
         Premium Cannabis for Everyone<br />
+        <br />
         Coming to Bangkok Soon..
       </div>
       <div class="emojis">
