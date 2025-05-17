@@ -5,7 +5,185 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>HighEnd</title>
     <link rel="icon" type="image/svg+xml" href="/src/logo.svg" />
-    <link rel="stylesheet" href="src/styles.css" />
+    <style>
+      /* Reset default margins and ensure full viewport coverage */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+        overflow: hidden; /* Prevent scrolling */
+        background-color: #6cd7e4; /* Fallback blue background */
+      }
+
+      /* Custom Font */
+      @font-face {
+        src: url("/src/cloudy.ttf") format("truetype");
+        font-family: "Cloudy";
+        font-weight: normal;
+        font-style: normal;
+      }
+
+      body,
+      div,
+      p,
+      h1,
+      h2,
+      h3,
+      span {
+        font-family: "cloudy", sans-serif !important;
+      }
+
+      /* Smoke Background */
+      .smoke-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        pointer-events: none;
+        z-index: 2;
+        background-image: url("/src/clouds.png");
+        background-repeat: no-repeat;
+        background-position: center top;
+        background-size: cover;
+        animation: cloudOpacity 4s ease-in-out infinite alternate; /* Add animation */
+      }
+
+      @keyframes cloudOpacity {
+        0% {
+          opacity: 0.3; /* Lower opacity */
+        }
+        100% {
+          opacity: 0.7; /* Higher opacity */
+        }
+      }
+
+      .smoke-particle {
+        position: absolute;
+        bottom: -150px;
+        width: 200px;
+        height: 200px;
+        background: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.1) 0%,
+          rgba(255, 255, 255, 0) 80%
+        );
+        border-radius: 50%;
+        animation: smoke 6s linear infinite;
+        filter: blur(15px);
+      }
+
+      /* Mouse-following smoke particles */
+      .mouse-particle {
+        position: fixed;
+        pointer-events: none;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.4) 0%,
+          rgba(255, 255, 255, 0) 80%
+        );
+        filter: blur(8px);
+        mix-blend-mode: screen;
+        z-index: 10;
+        transition: opacity 0.05s linear, transform 0.05s linear;
+      }
+
+      /* Smoke Animation */
+      @keyframes smoke {
+        0% {
+          transform: translateY(100%) scale(1);
+          opacity: 0.2;
+        }
+        50% {
+          opacity: 0.6;
+        }
+        100% {
+          transform: translateY(-100%) scale(1.5);
+          opacity: 0;
+        }
+      }
+
+      /* Main Container */
+      .container {
+        height: 100vh;
+        width: 100vw;
+        background-color: #6cd7e4;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px; /* Reduced padding to prevent overflow */
+        gap: 20px; /* Reduced gap to fit content */
+        text-align: center;
+        box-sizing: border-box;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* Logo */
+      .logo-image {
+        max-width: 700px;
+        width: 100%;
+        height: auto;
+        object-fit: contain;
+      }
+
+      /* Responsive Logo */
+      @media (max-width: 768px) {
+        .logo-image {
+          max-width: 300px;
+        }
+      }
+
+      /* Slogan Animation */
+      .slogan {
+        font-family: "Cloudy";
+        font-size: 1.5rem;
+        color: black;
+        text-shadow: -1px -1px 0 #faf5f5, 1px -1px 0 #faf5f5, -1px 1px 0 #faf5f5,
+          1px 1px 0 #faf5f5;
+        animation: sloganAnimation 2s ease-in-out infinite alternate;
+      }
+
+      @keyframes sloganAnimation {
+        0% {
+          opacity: 0.7;
+          transform: translateY(5px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(-5px);
+        }
+      }
+
+      /* Emojis Animation */
+      .emojis {
+        display: flex;
+        gap: 10px;
+        font-size: 2rem;
+        animation: emojiAnimation 1s ease-in-out infinite alternate;
+      }
+
+      @keyframes emojiAnimation {
+        0% {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(-10px);
+        }
+      }
+    </style>
   </head>
   <body>
     <!-- Smoke Background -->
@@ -29,6 +207,41 @@
       </div>
     </div>
 
-    <script src="/src/script.js"></script>
+    <script>
+      // Mouse-following smoke particles
+      const particles = [];
+
+      function createParticle(x, y) {
+        const particle = document.createElement("div");
+        particle.className = "mouse-particle";
+        particle.style.left = `${x - 15}px`;
+        particle.style.top = `${y - 15}px`;
+        particle.style.opacity = "1";
+        particle.style.transform = "scale(1)";
+        document.body.appendChild(particle);
+        particles.push({ element: particle, opacity: 1, scale: 1 });
+      }
+
+      function updateParticles() {
+        particles.forEach((particle, index) => {
+          particle.opacity -= 0.03;
+          particle.scale += 0.02;
+          particle.element.style.opacity = particle.opacity;
+          particle.element.style.transform = `scale(${particle.scale})`;
+          if (particle.opacity <= 0) {
+            particle.element.remove();
+            particles.splice(index, 1);
+          }
+        });
+      }
+
+      // Mouse move event
+      document.addEventListener("mousemove", (e) => {
+        createParticle(e.clientX, e.clientY);
+      });
+
+      // Update particles every 50ms
+      setInterval(updateParticles, 50);
+    </script>
   </body>
 </html>
