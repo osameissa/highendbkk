@@ -14,8 +14,8 @@ body {
 
 /* Custom Font */
 @font-face {
-  font-family: "Cloudy";
   src: url("/src/cloudy.ttf") format("truetype");
+  font-family: "Cloudy";
   font-weight: normal;
   font-style: normal;
 }
@@ -27,7 +27,7 @@ h1,
 h2,
 h3,
 span {
-  font-family: "Cloudy", Arial, sans-serif !important;
+  font-family: "cloudy", sans-serif !important;
 }
 
 /* Smoke Background */
@@ -43,7 +43,16 @@ span {
   background-repeat: no-repeat;
   background-position: center top;
   background-size: cover;
-  opacity: 0.5;
+  animation: cloudOpacity 4s ease-in-out infinite alternate; /* Add animation */
+}
+
+@keyframes cloudOpacity {
+  0% {
+    opacity: 0.3; /* Lower opacity */
+  }
+  100% {
+    opacity: 0.7; /* Higher opacity */
+  }
 }
 
 .smoke-particle {
@@ -129,6 +138,7 @@ span {
 
 /* Slogan Animation */
 .slogan {
+  font-family: "Cloudy", sans-serif; /* Match the case used in @font-face */
   font-size: 1.5rem;
   color: black;
   text-shadow: -1px -1px 0 #faf5f5, 1px -1px 0 #faf5f5, -1px 1px 0 #faf5f5,
