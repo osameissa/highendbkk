@@ -173,6 +173,19 @@
         animation: sloganAnimation 2s ease-in-out infinite alternate;
       }
 
+      /* Email Link Styling */
+      .email-link {
+        color: black; /* Match slogan color */
+        text-decoration: none;
+        cursor: pointer; /* Pointer cursor on hover */
+        transition: color 0.3s ease; /* Smooth hover effect */
+      }
+
+      .email-link:hover {
+        color: #333; /* Slightly darker on hover for contrast */
+        text-decoration: underline;
+      }
+
       @keyframes sloganAnimation {
         0% {
           opacity: 0.7;
@@ -219,7 +232,11 @@
         <br />
         Premium Cannabis for Everyone<br />
         <br />
-        Coming to Bangkok Soon..
+        Coming to Bangkok Soon.. <br />
+        <br />Contact:
+        <a href="mailto:shop@highendbkk.com" class="email-link"
+          >shop@highendbkk.com</a
+        >
       </div>
       <div class="emojis">
         <div>🌿</div>
