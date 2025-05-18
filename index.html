@@ -2,9 +2,12 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
     <title>HighEnd</title>
-    <link rel="icon" type="image/svg+xml" href="src/logo.svg?" />
+    <link rel="icon" type="image/svg+xml" href="src/logo.svg" />
     <style>
       /* Reset default margins and ensure full viewport coverage */
       * {
@@ -16,8 +19,8 @@
       html,
       body {
         height: 100%;
-        overflow: hidden; /* Prevent scrolling */
-        background-color: #6cd7e4; /* Fallback blue background */
+        overflow: hidden;
+        background-color: #6cd7e4;
         z-index: 0;
       }
 
@@ -44,34 +47,52 @@
         position: fixed;
         top: 0;
         left: 0;
-        width: 100vw;
-        height: 100vh;
+        width: 100%;
+        height: 100%;
         pointer-events: none;
         background-image: url("src/clouds.png");
         background-repeat: no-repeat;
-        background-position: center bottom; /* Start at bottom */
-        z-index: 2;
+        background-position: center bottom;
         background-size: cover;
-        animation: cloudMove 10s linear infinite; /* Updated animation */
+        z-index: 2;
+        will-change: transform, opacity;
+        animation: cloudMove 10s linear infinite;
+        -webkit-animation: cloudMove 10s linear infinite;
+        transform: translate3d(0, 0, 0);
+        -webkit-transform: translate3d(0, 0, 0);
       }
 
       @keyframes cloudMove {
         0% {
-          background-position: center top; /* Clouds start at bottom */
-          opacity: 0; /* Start fully transparent */
+          transform: translateY(0);
+          opacity: 0;
         }
         50% {
           opacity: 1;
         }
         100% {
-          background-position: center bottom; /* Clouds move to top */
-          opacity: 0; /* End fully opaque */
+          transform: translateY(-100%);
+          opacity: 0;
+        }
+      }
+
+      @-webkit-keyframes cloudMove {
+        0% {
+          transform: translateY(0);
+          opacity: 0;
+        }
+        50% {
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-100%);
+          opacity: 0;
         }
       }
 
       .smoke-particle {
         position: absolute;
-        bottom: 0; /* Start at the bottom of the viewport */
+        bottom: 0;
         width: 200px;
         height: 200px;
         background: radial-gradient(
@@ -82,9 +103,9 @@
         border-radius: 50%;
         animation: smoke 6s linear infinite;
         filter: blur(15px);
+        will-change: transform, opacity;
       }
 
-      /* Mouse-following smoke particles */
       .mouse-particle {
         position: fixed;
         pointer-events: none;
@@ -100,42 +121,40 @@
         mix-blend-mode: screen;
         z-index: 10;
         transition: opacity 0.05s linear, transform 0.05s linear;
+        will-change: transform, opacity;
       }
 
-      /* Smoke Animation */
       @keyframes smoke {
         0% {
-          transform: translateY(0) scale(1); /* Start at bottom */
+          transform: translateY(0) scale(1);
           opacity: 0.2;
         }
         50% {
           opacity: 0.6;
         }
         100% {
-          transform: translateY(-100vh) scale(1.5); /* Move up to top of viewport */
+          transform: translateY(-100vh) scale(1.5);
           opacity: 0;
         }
       }
 
-      /* Main Container */
       .container {
-        height: 100vh;
-        width: 100vw;
+        height: 100%;
+        width: 100%;
         background-color: #6cd7e4;
         color: white;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        padding: 20px; /* Reduced padding to prevent overflow */
-        gap: 20px; /* Reduced gap to fit content */
+        padding: 20px;
+        gap: 20px;
         text-align: center;
         box-sizing: border-box;
         position: relative;
         z-index: 1;
       }
 
-      /* Logo */
       .logo-image {
         max-width: 700px;
         width: 100%;
@@ -146,23 +165,28 @@
 
       @keyframes logoAnimation {
         0% {
-          opacity: 1;
           transform: translateY(20px);
+          opacity: 1;
         }
         100% {
-          opacity: 1;
           transform: translateY(-20px);
+          opacity: 1;
         }
       }
 
-      /* Responsive Logo */
       @media (max-width: 768px) {
         .logo-image {
           max-width: 300px;
         }
+        .smoke-particle {
+          width: 100px;
+          height: 100px;
+        }
+        .slogan {
+          font-size: 1.2rem;
+        }
       }
 
-      /* Slogan Animation */
       .slogan {
         font-family: "Cloudy";
         font-size: 1.5rem;
@@ -173,31 +197,36 @@
         animation: sloganAnimation 2s ease-in-out infinite alternate;
       }
 
-      /* Email Link Styling */
+      /* Pause animations for slogan, emojis, and logo */
+      .slogan.pause-animation,
+      .emojis.pause-animation,
+      .logo-image.pause-animation {
+        animation-play-state: paused;
+      }
+
       .email-link {
-        color: black; /* Match slogan color */
+        color: black;
         text-decoration: none;
-        cursor: pointer; /* Pointer cursor on hover */
-        transition: color 0.3s ease; /* Smooth hover effect */
+        cursor: pointer;
+        transition: color 0.3s ease;
       }
 
       .email-link:hover {
-        color: #333; /* Slightly darker on hover for contrast */
-        text-decoration: underline;
+        color: #333;
+        text-decoration: underline rgba(0, 0, 0, 0.88);
       }
 
       @keyframes sloganAnimation {
         0% {
-          opacity: 0.7;
           transform: translateY(20px);
+          opacity: 0.7;
         }
         100% {
-          opacity: 1;
           transform: translateY(-20px);
+          opacity: 1;
         }
       }
 
-      /* Emojis Animation */
       .emojis {
         display: flex;
         gap: 10px;
@@ -207,25 +236,23 @@
 
       @keyframes emojiAnimation {
         0% {
-          opacity: 0;
           transform: translateY(20px);
+          opacity: 0;
         }
         100% {
-          opacity: 1;
           transform: translateY(-20px);
+          opacity: 1;
         }
       }
     </style>
   </head>
   <body>
-    <!-- Smoke Background -->
     <div class="smoke-bg">
       <div class="smoke-particle" style="left: 20%; animation-delay: 0s"></div>
       <div class="smoke-particle" style="left: 50%; animation-delay: 2s"></div>
       <div class="smoke-particle" style="left: 80%; animation-delay: 4s"></div>
     </div>
 
-    <!-- Main Content -->
     <div class="container">
       <img src="src/logo.png" alt="HighEnd Logo" class="logo-image" />
       <div class="slogan">
@@ -246,7 +273,7 @@
     </div>
 
     <script>
-      // Mouse-following smoke particles
+      // Particle management for both mouse and touch
       const particles = [];
 
       function createParticle(x, y) {
@@ -273,13 +300,56 @@
         });
       }
 
-      // Mouse move event
+      // Mouse move event for desktop
       document.addEventListener("mousemove", (e) => {
         createParticle(e.clientX, e.clientY);
       });
 
+      // Touch move event for mobile
+      document.addEventListener(
+        "touchmove",
+        (e) => {
+          e.preventDefault();
+          const touch = e.touches[0];
+          createParticle(touch.clientX, touch.clientY);
+        },
+        { passive: false }
+      );
+
       // Update particles every 50ms
       setInterval(updateParticles, 50);
+
+      // Pause animations for slogan, emojis, and logo on email-link hover/touch
+      const emailLink = document.querySelector(".email-link");
+      const slogan = document.querySelector(".slogan");
+      const emojis = document.querySelector(".emojis");
+      const logoImage = document.querySelector(".logo-image");
+
+      // Desktop hover events
+      emailLink.addEventListener("mouseenter", () => {
+        slogan.classList.add("pause-animation");
+        emojis.classList.add("pause-animation");
+        logoImage.classList.add("pause-animation");
+      });
+
+      emailLink.addEventListener("mouseleave", () => {
+        slogan.classList.remove("pause-animation");
+        emojis.classList.remove("pause-animation");
+        logoImage.classList.remove("pause-animation");
+      });
+
+      // Mobile touch events
+      emailLink.addEventListener("touchstart", () => {
+        slogan.classList.add("pause-animation");
+        emojis.classList.add("pause-animation");
+        logoImage.classList.add("pause-animation");
+      });
+
+      emailLink.addEventListener("touchend", () => {
+        slogan.classList.remove("pause-animation");
+        emojis.classList.remove("pause-animation");
+        logoImage.classList.remove("pause-animation");
+      });
     </script>
   </body>
 </html>
