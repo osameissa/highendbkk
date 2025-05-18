@@ -58,11 +58,14 @@
       @keyframes cloudMove {
         0% {
           background-position: center top; /* Clouds start at bottom */
-          opacity: 0.3;
+          opacity: 0; /* Start fully transparent */
+        }
+        50% {
+          opacity: 1;
         }
         100% {
           background-position: center bottom; /* Clouds move to top */
-          opacity: 0.7;
+          opacity: 0; /* End fully opaque */
         }
       }
 
