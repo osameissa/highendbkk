@@ -8,13 +8,6 @@
     />
     <title>HighEnd</title>
     <link rel="icon" type="image/svg+xml" href="src/favicon.png" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
     <style>
       * {
         margin: 0;
@@ -254,7 +247,6 @@
           font-size: 1.2rem;
         }
         .social-icons {
-          font-size: 1.5rem;
           position: absolute;
           bottom: 2%;
         }
@@ -284,7 +276,8 @@
 
       .slogan.pause-animation,
       .social-icons.pause-animation,
-      .logo-image.pause-animation {
+      .logo-image.pause-animation,
+      .google-icon.pause-animation {
         animation-play-state: paused;
       }
 
@@ -314,20 +307,60 @@
       .social-icons {
         display: flex;
         gap: 15px;
-        font-size: 2rem;
         position: absolute;
         bottom: 2%;
       }
 
       .social-icons a {
-        color: black;
         text-decoration: none;
-        transition: color 0.3s ease;
+        transition: opacity 0.3s ease;
       }
 
       .social-icons a:hover {
-        color: #333;
         opacity: 0.6;
+      }
+
+      .social-icons img {
+        width: 32px;
+        height: 32px;
+        object-fit: contain;
+      }
+
+      .google-icon {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 3;
+      }
+
+      .google-icon a {
+        text-decoration: none;
+        transition: opacity 0.3s ease;
+      }
+
+      .google-icon a:hover {
+        opacity: 0.6;
+      }
+
+      .google-icon img {
+        width: 122px;
+        height: 122px;
+        object-fit: contain;
+      }
+
+      @media (max-width: 768px) {
+        .social-icons img {
+          width: 33px;
+          height: 33px;
+        }
+        .google-icon img {
+          width: 100px;
+          height: 100px;
+        }
+        .google-icon {
+          top: 10px;
+          right: 10px;
+        }
       }
 
       @keyframes socialAnimation {
@@ -365,23 +398,28 @@
           target="_blank"
           rel="noopener noreferrer"
         >
-          <i class="fa-brands fa-instagram"></i>
+          <img src="src/ig.png" alt="Instagram" />
         </a>
         <a
           href="https://x.com/highendbkk"
           target="_blank"
           rel="noopener noreferrer"
         >
-          <i class="fa-brands fa-x-twitter"></i>
+          <img src="src/x.png" alt="X" />
         </a>
         <a
           href="https://facebook.com/profile.php?id=61576807430315"
           target="_blank"
           rel="noopener noreferrer"
         >
-          <i class="fa-brands fa-facebook"></i>
+          <img src="src/fb.png" alt="Facebook" />
         </a>
       </div>
+    </div>
+    <div class="google-icon">
+      <a href="https://google.com" target="_blank" rel="noopener noreferrer">
+        <img src="src/google.png" alt="Google" />
+      </a>
     </div>
 
     <script>
@@ -405,19 +443,16 @@
         trail.style.top = `${y}px`;
         trail.style.opacity = "1";
 
-        // Random segment count (3 to 8)
         const segmentCount = Math.floor(Math.random() * 6) + 3;
         const segmentHeight = window.innerWidth <= 768 ? 20 : 25;
         trail.style.height = `${segmentCount * segmentHeight}px`;
 
-        // Create segments
         for (let i = 0; i < segmentCount; i++) {
           const segment = document.createElement("div");
           segment.className = "segment";
           trail.appendChild(segment);
         }
 
-        // Random animation duration (5s to 7s)
         const duration = 5 + Math.random() * 2;
         trail.style.animation = `trail ${duration}s ease-out forwards`;
 
@@ -455,15 +490,12 @@
         });
       }
 
-      // Create trail particles every 300ms
       setInterval(createTrailParticle, 300);
 
-      // Mouse move event for desktop
       document.addEventListener("mousemove", (e) => {
         createMouseParticle(e.clientX, e.clientY);
       });
 
-      // Touch move event for mobile
       document.addEventListener(
         "touchmove",
         (e) => {
@@ -474,36 +506,39 @@
         { passive: false }
       );
 
-      // Update particles every 50ms
       setInterval(updateParticles, 50);
 
-      // Pause animations for slogan, social icons, and logo on email-link hover/touch
       const emailLink = document.querySelector(".email-link");
       const slogan = document.querySelector(".slogan");
       const socialIcons = document.querySelector(".social-icons");
+      const googleIcon = document.querySelector(".google-icon");
       const logoImage = document.querySelector(".logo-image");
 
       emailLink.addEventListener("mouseenter", () => {
         slogan.classList.add("pause-animation");
         socialIcons.classList.add("pause-animation");
+        googleIcon.classList.add("pause-animation");
         logoImage.classList.add("pause-animation");
       });
 
       emailLink.addEventListener("mouseleave", () => {
         slogan.classList.remove("pause-animation");
         socialIcons.classList.remove("pause-animation");
+        googleIcon.classList.remove("pause-animation");
         logoImage.classList.remove("pause-animation");
       });
 
       emailLink.addEventListener("touchstart", () => {
         slogan.classList.add("pause-animation");
         socialIcons.classList.add("pause-animation");
+        googleIcon.classList.add("pause-animation");
         logoImage.classList.add("pause-animation");
       });
 
       emailLink.addEventListener("touchend", () => {
         slogan.classList.remove("pause-animation");
         socialIcons.classList.remove("pause-animation");
+        googleIcon.classList.remove("pause-animation");
         logoImage.classList.remove("pause-animation");
       });
     </script>
